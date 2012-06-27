@@ -1,4 +1,4 @@
-#lang racket/base
+;; #lang racket/base
 
 
 (define (music-cons pitch duration)
@@ -9,7 +9,9 @@
   ;;    1) A numeric (integral) value (in which case the units are milliseconds)
   ;;    2) Another music-cons
   ;;    3) Null (which is a special case of music-cons)
-  (quasiquote (unquote pitch) (unquote duration)))
+  (if (ormap number? (list pitch duration))
+    (raise-user-error "music-cons called with numeric arguments")
+    (quasiquote ((unquote pitch) (unquote duration)))))
 
 
 (define (pitch-function pitch-number)
