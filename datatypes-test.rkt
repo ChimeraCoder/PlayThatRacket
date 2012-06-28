@@ -6,4 +6,5 @@
 ;; TODO: Add assertions.
 (check-exn
    exn:fail?
-   (pitch-function (3 4)))
+   (pitch-function '(4 3))
+   "Calling pitch-function on non number raises user error.")
