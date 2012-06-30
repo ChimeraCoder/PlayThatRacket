@@ -2,6 +2,7 @@
 
 
   (struct: note ([pitch : Integer] [duration : Integer]))
+  (define-type Note (Rec NT (U note (Pair NT NT))))
   
   (: raise-octave (note -> note))
   (define (raise-octave nt)
