@@ -23,6 +23,11 @@
 
 
   (struct: Tempo ([milliseconds-per-beat : Integer]))
+
+  (define (semitone-up nt)
+    (note (truncate (* (note-pitch nt) 1.05946)) (note-duration nt)))
+  (define (semitone-down nt)
+    (note (truncate (/ (note-pitch nt) 1.05946)) (note-duration nt)))
   
   (: tempo-in-bpm (Integer -> Tempo))
   (define (tempo-in-bpm beats-per-minute)
