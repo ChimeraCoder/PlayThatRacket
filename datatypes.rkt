@@ -1,5 +1,7 @@
 (module datatypes typed/racket
 
+  (require racket/stream)
+
 
   (struct: note ([pitch : Integer] [duration : Integer]))
   (define-type Note (Rec NT (U note (Pair NT NT))))
@@ -39,7 +41,18 @@
 
   (define *tempo* (make-parameter (tempo-in-mspb 500)))
 
-                                                                                    ;;A measure (a list of notes with a predefined length) can be defined using macros
+  ;TODO add optional parameter for defining the second note
+  (define (trill nt)
+    (if (not (list? nt))
+      (let ((num-new-notes (/ (note-duration nt) 10))
+            (other-pitch  (note-pitch (semitone-down nt))))
+        (let* ((zipped-stream (stream-add-between (stream-of-original-notes) (Note other-pitch 10)))
+               (notes-lst (stream-take num-new-notes zipped-stream))
+               (remainder-note (Note (note-pitch nt) (remainder (note-duration nt) 10))))
+           (append notes-lst '(remainder-note))))
+      (map trill nt)))
+      
+;;A measure (a list of notes with a predefined length) can be defined using macros
 
   (: join-phrases (Phrase Phrase -> Phrase))
   (define (join-phrases phrase1 phrase2)
