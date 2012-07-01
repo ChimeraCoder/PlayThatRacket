@@ -22,15 +22,15 @@
   (define *time-signature* (make-parameter (time-signature 4 4)))
 
 
-  (struct: tempo ([milliseconds-per-beat : Integer]))
+  (struct: Tempo ([milliseconds-per-beat : Integer]))
   
-  (define (tempo-in-bpm beats-per-measure)
-  ;;TODO
-    '())
+  (: tempo-in-bpm (Integer -> Tempo))
+  (define (tempo-in-bpm beats-per-minute)
+    (Tempo (truncate (* (/ beats-per-minute 60) 1000))))
   
+  (: tempo-in-mspb (Integer -> Tempo))
   (define (tempo-in-mspb milliseconds-per-beat)
-  ;;TODO
-    '())
+    (Tempo milliseconds-per-beat))
 
   (define *tempo* (make-parameter (tempo-in-mspb 500)))
 
