@@ -16,11 +16,28 @@
   ;;A phrase is a list of notes of arbitrary length
   (define-type Phrase (Listof note))
 
-  ;;A measure (a list of notes with a predefined length) can be defined using macros
+  (struct: time-signature ([beats    : Integer]  ;;How many beats per measure                            
+                           [one-note : Integer])) ;;The note that represents a single beat
+
+  (define *time-signature* (make-parameter (time-signature 4 4)))
+
+
+  (struct: tempo ([milliseconds-per-beat : Integer]))
+  
+  (define (tempo-in-bpm beats-per-measure)
+  ;;TODO
+    '())
+  
+  (define (tempo-in-mspb milliseconds-per-beat)
+  ;;TODO
+    '())
+
+  (define *tempo* (make-parameter (tempo-in-mspb 500)))
+
+                                                                                    ;;A measure (a list of notes with a predefined length) can be defined using macros
 
   (: join-phrases (Phrase Phrase -> Phrase))
   (define (join-phrases phrase1 phrase2)
     (append phrase1 phrase2))
-  
 
 (provide (all-defined-out)))
