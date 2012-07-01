@@ -26,14 +26,17 @@
 
   (struct: Tempo ([milliseconds-per-beat : Integer]))
 
+  (: semitone-up (note -> note))
   (define (semitone-up nt)
-    (note (truncate (* (note-pitch nt) 1.05946)) (note-duration nt)))
+    (note (round (inexact->exact (* (note-pitch nt) 1.05946))) (note-duration nt)))
+
+  (: semitone-down (note -> note))
   (define (semitone-down nt)
-    (note (truncate (/ (note-pitch nt) 1.05946)) (note-duration nt)))
+    (note (round (inexact->exact (/ (note-pitch nt) 1.05946))) (note-duration nt)))
   
   (: tempo-in-bpm (Integer -> Tempo))
   (define (tempo-in-bpm beats-per-minute)
-    (Tempo (truncate (* (/ beats-per-minute 60) 1000))))
+    (Tempo (round (inexact->exact (* (/ beats-per-minute 60) 1000)))))
   
   (: tempo-in-mspb (Integer -> Tempo))
   (define (tempo-in-mspb milliseconds-per-beat)
@@ -41,6 +44,7 @@
 
   (define *tempo* (make-parameter (tempo-in-mspb 500)))
 
+#|
   ;TODO add optional parameter for defining the second note
   (define (trill nt)
     (if (not (list? nt))
@@ -51,7 +55,8 @@
                (remainder-note (Note (note-pitch nt) (remainder (note-duration nt) 10))))
            (append notes-lst '(remainder-note))))
       (map trill nt)))
-      
+ |#
+
 ;;A measure (a list of notes with a predefined length) can be defined using macros
 
   (: join-phrases (Phrase Phrase -> Phrase))
