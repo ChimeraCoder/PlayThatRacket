@@ -6,4 +6,4 @@ clean:
 	rm -rf "compiled/" "*.swp"
 
 test:
-	racket datatypes-test.rkt
+	racket tests/datatypes-test.rkt -I typed/racket

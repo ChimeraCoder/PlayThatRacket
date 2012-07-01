@@ -1,7 +1,7 @@
 #lang racket/base
 
 (require rackunit
-         "datatypes.rkt")
+         "../datatypes.rkt")
 
 ;; TODO: Add assertions.
 ;;(check-exn
