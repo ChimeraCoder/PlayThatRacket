@@ -1,17 +1,19 @@
 (module datatypes typed/racket
 
   (require racket/stream)
-  (require/typed "datatypes-aux.rkt"
-                [flatten-phrase (Phrase -> Phrase)]
-                [append-phrase (Phrase Phrase -> Phrase)]
-                [map-phrase ((Phrase -> Phrase) Phrase  -> Phrase)])
-
-
+ 
   (struct: note ([pitch : Integer] [duration : Integer]) #:transparent)
   ;;(define-type Note (Rec NT (U note (Pair NT NT))))
   
   ;;A phrase is a list of notes of arbitrary length
   (define-type Phrase (Rec NT (U note (Listof NT))))
+
+
+  (require/typed "datatypes-aux.rkt"
+                [flatten-phrase (Phrase -> Phrase)]
+                [append-phrase (Phrase Phrase -> Phrase)]
+                [map-phrase ((Phrase -> Phrase) Phrase  -> Phrase)])
+
 
 
   (: raise-octave (note -> note))
@@ -77,7 +79,6 @@
       (list (semitone-down nt))))
       ;;TODO figure out better way so every note isn't wrapped in a list
  
-;  (define (flatten-phrase phrs)
     
 
 (provide (all-defined-out)))
