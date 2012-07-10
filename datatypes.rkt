@@ -3,7 +3,7 @@
   (require racket/stream)
 
 
-  (struct: note ([pitch : Integer] [duration : Integer]))
+  (struct: note ([pitch : Integer] [duration : Integer]) #:transparent)
   (define-type Note (Rec NT (U note (Pair NT NT))))
   
   (: raise-octave (note -> note))
