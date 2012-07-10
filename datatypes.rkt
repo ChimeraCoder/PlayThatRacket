@@ -1,11 +1,19 @@
 (module datatypes typed/racket
 
   (require racket/stream)
+  (require/typed "datatypes-aux.rkt"
+                [flatten-phrase (Phrase -> Phrase)]
+                [append-phrase (Phrase Phrase -> Phrase)]
+                [map-phrase ((Phrase -> Phrase) Phrase  -> Phrase)])
 
 
   (struct: note ([pitch : Integer] [duration : Integer]) #:transparent)
-  (define-type Note (Rec NT (U note (Pair NT NT))))
+  ;;(define-type Note (Rec NT (U note (Pair NT NT))))
   
+  ;;A phrase is a list of notes of arbitrary length
+  (define-type Phrase (Rec NT (U note (Listof NT))))
+
+
   (: raise-octave (note -> note))
   (define (raise-octave nt)
     (note (* 2 (note-pitch nt)) (note-duration nt)))
@@ -15,8 +23,6 @@
   (define (raise-all-octave nt-lst)
     (map raise-octave nt-lst))
 
-  ;;A phrase is a list of notes of arbitrary length
-  (define-type Phrase (Listof note))
 
   (struct: time-signature ([beats    : Integer]  ;;How many beats per measure                            
                            [one-note : Integer])) ;;The note that represents a single beat
@@ -61,6 +67,17 @@
 
   (: join-phrases (Phrase Phrase -> Phrase))
   (define (join-phrases phrase1 phrase2)
-    (append phrase1 phrase2))
+    (append-phrase phrase1 phrase2))
+
+
+  (: semitone-down-f (Phrase -> Phrase))
+  (define (semitone-down-f nt)
+    (if (list? nt)
+      (flatten-phrase (map-phrase semitone-down-f nt))
+      (list (semitone-down nt))))
+      ;;TODO figure out better way so every note isn't wrapped in a list
+ 
+;  (define (flatten-phrase phrs)
+    
 
 (provide (all-defined-out)))
