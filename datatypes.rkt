@@ -80,5 +80,11 @@
       ;;TODO figure out better way so every note isn't wrapped in a list
  
     
+  (: semitone-up-f (Phrase -> Phrase))
+  (define (semitone-up-f nt)
+    (if (list? nt)
+      (flatten-phrase (map-phrase semitone-up-f nt))
+      (list (semitone-up nt))))
+      ;;TODO figure out better way so every note isn't wrapped in a list
 
 (provide (all-defined-out)))
