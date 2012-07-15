@@ -8,11 +8,13 @@
   ;;A phrase is a list of notes of arbitrary length
   (define-type Phrase (Rec NT (U note (Listof NT))))
 
+  (define-type MysteryType (U Number (Listof Number)))
 
   (require/typed "datatypes-aux.rkt"
                 [flatten-phrase (Phrase -> Phrase)]
                 [append-phrase (Phrase Phrase -> Phrase)]
-                [map-phrase ((Phrase -> Phrase) Phrase  -> Phrase)])
+                [map-phrase ((Phrase -> Phrase) Phrase  -> Phrase)]
+                [mystery (MysteryType -> (U MysteryType (Listof MysteryType)))])
 
 
 
@@ -89,11 +91,13 @@
 
 
     (define-syntax-rule (define/automap (name arg) bodies) 
-      (define (name new-arg)    
+      (begin
+        (: name (Phrase -> Phrase))
+        (define (name new-arg)    
         (define (old arg) bodies) 
           (if (note? new-arg)  
             (old new-arg)
-            (map old new-arg))))
+            (map-phrase old new-arg)))))
     
     (define-syntax define/automap2
       (syntax-rules ()
@@ -116,9 +120,9 @@
                 (old new-arg)
                 (map old new-arg)))]))
 
-    (define/automap3 (mystery x)
-      (semitone-down x))
-    
+;;    (define/automap (mystery-note x)
+;;      (semitone-down x))
+;;    
 ;;    
 ;;    (name arg) bodies) 
 ;;      (define (name new-arg)    

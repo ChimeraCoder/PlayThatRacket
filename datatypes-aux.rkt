@@ -8,4 +8,16 @@
     (define (map-phrase fn phrase)
        (map fn phrase))
 
+
+    (define-syntax-rule (define/automap4 (name arg) bodies) 
+       (define (name new-arg) 
+         (define (old arg) bodies) 
+           (if (list? new-arg)  
+             (map old new-arg) 
+             (old new-arg))))
+
+
+    (define/automap4 (mystery x)
+      (+ x 1))
+
     (provide (all-defined-out))
