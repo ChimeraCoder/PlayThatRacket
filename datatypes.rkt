@@ -94,7 +94,39 @@
           (if (note? new-arg)  
             (old new-arg)
             (map old new-arg))))
-;;
+    
+    (define-syntax define/automap2
+      (syntax-rules ()
+        [(define/automap2 (name new-arg) bodies)
+           (begin
+             (define (old arg) bodies)
+             (if (note? new-arg)
+               (old new-arg)
+               (map old new-arg)))]))
+
+    ;;Not quite right; adapted from http://permalink.gmane.org/gmane.comp.lang.racket.user/8178
+    (define-syntax define/automap3 
+     (syntax-rules ()
+       [(define/automap3 (name new-arg) bodies)
+          #'(let ()
+              (: old (note -> note))
+
+              (define (old arg) bodies)
+              (if (note? new-arg)
+                (old new-arg)
+                (map old new-arg)))]))
+
+    (define/automap3 (mystery x)
+      (semitone-down x))
+    
+;;    
+;;    (name arg) bodies) 
+;;      (define (name new-arg)    
+;;        (define (old arg) bodies) 
+;;          (if (note? new-arg)  
+;;            (old new-arg)
+;;            (map old new-arg))))
+;;;;
 ;;    (: mystery (Phrase -> Phrase))
 ;;    (define/automap (mystery x)
 ;;      (semitone-down x))
