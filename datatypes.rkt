@@ -87,4 +87,27 @@
       (list (semitone-up nt))))
       ;;TODO figure out better way so every note isn't wrapped in a list
 
+
+    (define-syntax-rule (define/automap (name arg) bodies) 
+      (define (name new-arg)    
+        (define (old arg) bodies) 
+          (if (note? new-arg)  
+            (old new-arg)
+            (map old new-arg))))
+;;
+;;    (: mystery (Phrase -> Phrase))
+;;    (define/automap (mystery x)
+;;      (semitone-down x))
+
+
+;;  ;(: automap (note -> note) -> (Phrase -> Phrase))
+;;  (define-syntax (automap func)
+;;    (: func (note -> note) -> (Phrase -> Phrase))
+;;    (define (func nt)
+;;      (if (list? nt)
+;;        (flatten-phrase (map-phrase func nt))
+;;        (list (func nt)))))
+;;    
+
+
 (provide (all-defined-out)))
