@@ -1,7 +1,7 @@
 #lang racket/base
 
 (require rackunit
-         "../datatypes.rkt")
+         "../basic-ops.rkt")
 
 ;; TODO: Add assertions.
 ;;(check-exn
@@ -31,7 +31,11 @@
 (define phrase2-semi-down-target  (list (note 472 400) (note 566 400) (note 661 400)))
 (define nested-phrases (list phrase1 phrase2))
 
-(define semitone-up-f-target (list (note 106 400) (note 212 400) (note 318 400) (note 530 400) (note 636 400) (note 742 400)))
+(define phrase1-semi-up-target (list (note 106 400) (note 212 400) (note 318 400)))
+
+(check-equal? phrase1-semi-up-target (semitone-up-f phrase1))
+
+(define semitone-up-f-target (list (list (note 106 400) (note 212 400) (note 318 400)) (list (note 530 400) (note 636 400) (note 742 400))))
 
 (define semitone-down-f-target (list (note 94 400) (note 189 400) (note 283 400) (note 472 400) (note 566 400) (note 661 400)))
 
