@@ -90,6 +90,7 @@
       ;;TODO figure out better way so every note isn't wrapped in a list
 
 
+    ;;This is based on the sample that mithos28_ gave in #racket on freenode: https://gist.github.com/3115010
     (define-syntax-rule (define/automap (name arg) bodies) 
       (begin
         (: name (Phrase -> Phrase))
@@ -98,7 +99,8 @@
           (if (note? new-arg)  
             (old new-arg)
             (map-phrase old new-arg)))))
-    
+   
+   ;;This is similar, but uses define-syntax instead of define-syntax-rule
     (define-syntax define/automap2
       (syntax-rules ()
         [(define/automap2 (name new-arg) bodies)
