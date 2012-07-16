@@ -39,6 +39,7 @@
 
 (define semitone-down-f-target (list (note 94 400) (note 189 400) (note 283 400) (note 472 400) (note 566 400) (note 661 400)))
 
+(check-equal? A# (semitone-up-f A ))
 (check-equal? semitone-up-f-target (semitone-up-f (list phrase1 phrase2)))
 (check-equal? semitone-down-f-target (semitone-down-f (list phrase1 phrase2)))
 
