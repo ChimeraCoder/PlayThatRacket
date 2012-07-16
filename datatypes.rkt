@@ -80,72 +80,8 @@
       (flatten-phrase (map-phrase semitone-down-f nt))
       (list (semitone-down nt))))
       ;;TODO figure out better way so every note isn't wrapped in a list
- 
-    
-  (: semitone-up-f (Phrase -> Phrase))
-  (define (semitone-up-f nt)
-    (if (list? nt)
-      (flatten-phrase (map-phrase semitone-up-f nt))
-      (list (semitone-up nt))))
-      ;;TODO figure out better way so every note isn't wrapped in a list
 
 
-    ;;This is based on the sample that mithos28_ gave in #racket on freenode: https://gist.github.com/3115010
-    (define-syntax-rule (define/automap (name arg) bodies) 
-      (begin
-        (: name (Phrase -> Phrase))
-        (define (name new-arg)    
-        (define (old arg) bodies) 
-          (if (note? new-arg)  
-            (old new-arg)
-            (map-phrase old new-arg)))))
-   
-   ;;This is similar, but uses define-syntax instead of define-syntax-rule
-    (define-syntax define/automap2
-      (syntax-rules ()
-        [(define/automap2 (name new-arg) bodies)
-           (begin
-             (define (old arg) bodies)
-             (if (note? new-arg)
-               (old new-arg)
-               (map old new-arg)))]))
-
-    ;;Not quite right; adapted from http://permalink.gmane.org/gmane.comp.lang.racket.user/8178
-    (define-syntax define/automap3 
-     (syntax-rules ()
-       [(define/automap3 (name new-arg) bodies)
-          #'(let ()
-              (: old (note -> note))
-
-              (define (old arg) bodies)
-              (if (note? new-arg)
-                (old new-arg)
-                (map old new-arg)))]))
-
-;;    (define/automap (mystery-note x)
-;;      (semitone-down x))
-;;    
-;;    
-;;    (name arg) bodies) 
-;;      (define (name new-arg)    
-;;        (define (old arg) bodies) 
-;;          (if (note? new-arg)  
-;;            (old new-arg)
-;;            (map old new-arg))))
-;;;;
-;;    (: mystery (Phrase -> Phrase))
-;;    (define/automap (mystery x)
-;;      (semitone-down x))
-
-
-;;  ;(: automap (note -> note) -> (Phrase -> Phrase))
-;;  (define-syntax (automap func)
-;;    (: func (note -> note) -> (Phrase -> Phrase))
-;;    (define (func nt)
-;;      (if (list? nt)
-;;        (flatten-phrase (map-phrase func nt))
-;;        (list (func nt)))))
-;;    
 
 
 (provide (all-defined-out)))
