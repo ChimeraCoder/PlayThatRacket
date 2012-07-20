@@ -1,7 +1,7 @@
 #lang racket/base
 
 (require rackunit
-         "../basic-ops.rkt")
+         "../basic-ops-typed.rkt")
 
 ;; TODO: Add assertions.
 ;;(check-exn
@@ -21,6 +21,10 @@
 (define A# (note (round (inexact->exact 466.16)) 500))
 (define Ab (note (round (inexact->exact 415.486)) 500))
 
+;;Make sure unicode identifiers work
+(test-case "Unicode identifiers for accidentals should work"
+  (define A♯ (note (round (inexact->exact 466.16)) 500)) 
+  (define A♭ (note (round (inexact->exact 415.486)) 500)))
 
 ;;Check that semitone-{up,down} adjusts pitch to within 1Hz of the correct value
 (check-= (note-pitch (semitone-up A)) (note-pitch A#) 1 "Semitone up check failed")
