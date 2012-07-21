@@ -1,4 +1,6 @@
-(module compile-midi 
+(module compile-midi racket/base
+   (require racket/list)
+   (require racket/match)
 
    (define (calculate-deltas lst) 
      (map (lambda (a b) 
@@ -11,16 +13,19 @@
      (cons (car lst) (calculate-deltas lst)))
 
    ;; returns the binary bits backwards
-   (define (num-to-binary n)
-     (if (= n 0)
-       0
+   (define (num-to-binary-r n)
         (if (>= n 1)
                (cons (if (even? n)
                        0
                        1)
-               (num-to-binary
+               (num-to-binary-r
                  (quotient n 2)))
-               null)))
+               null))
+
+   (define (num-to-binary n)
+     (if (= 0 n)
+       '(0)
+       (num-to-binary-r n)))
 
    (define (binary-to-midi-encoding b start)
      (let ([bit (if start 0 1)])
@@ -73,7 +78,6 @@
 
    (define (header-chunk) '(0x4d 0x54 0x68 0x64 0x00 0x00 0x00 0x06))
    (define (track-chunk) '(0x4d 0x54 0x72 0x68))
-
 
    (provide (all-defined-out))
 )
