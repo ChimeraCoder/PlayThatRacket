@@ -12,13 +12,15 @@
 
    ;; returns the binary bits backwards
    (define (delta-to-binary n)
-     (if (>= n 1)
-            (cons (if (even? n)
-                    0
-                    1)
-            (delta-to-binary
-              (quotient n 2)))
-            null))
+     (if (= n 0)
+       0
+        (if (>= n 1)
+               (cons (if (even? n)
+                       0
+                       1)
+               (delta-to-binary
+                 (quotient n 2)))
+               null)))
 
    (define (binary-to-midi-encoding b start)
      (let ([bit (if start 0 1)])
@@ -38,6 +40,12 @@
        (pad-binary (cons 0 binary))
        binary)
      )
+
+   (define (bit-list-to-chars bit-list)
+     (if (null? bit-list)
+       null
+       (cons (foldl + 0 (map (lambda (a b) (* a b)) (take bit-list 4) '(8 4 2 1))) 
+             (bit-list-to-chars (drop bit-list 4))))
 
 
    (define (header-chunk) '(0x4d 0x54 0x68 0x64 0x00 0x00 0x00 0x06))
