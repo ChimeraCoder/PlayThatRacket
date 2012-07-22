@@ -3,6 +3,9 @@
 (require rackunit
          "../basic-ops-untyped.rkt")
 
+(require (only-in "../supermap.rkt" map/skip))
+
+
 (define A♮ (note 440 500))
 (define A♯ (note (round (inexact->exact 466.16)) 500)) 
 
@@ -25,8 +28,16 @@
   (define A♮-trilled (trill A♮))
 
   (map (lambda (nt) (check-equal? (note-duration nt) (note-duration A♮))) A♮-trilled)  
+  (map/skip (lambda (nt) (check-equal? (note-pitch nt) (note-pitch (semitone-up A♮)))) A♮-trilled)  
+  (map/skip (lambda (nt) (check-equal? (note-pitch nt) (note-pitch A♮))) A♮-trilled #f)  
   (check-equal? #t #t))
 
+(test-case "Trill should work on a single note"
+  (define pair-trilled (trill (list A♮)))
+  (define A♮-trilled (trill A♮))
+
+  (map (lambda (nt) (check-equal? (note-duration nt) (note-duration A♮))) A♮-trilled)  
+  (check-equal? #t #t))
 
 
 
