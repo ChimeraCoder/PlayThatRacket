@@ -1,6 +1,11 @@
 (module compile-midi racket/base
    (require racket/list)
    (require racket/match)
+   (require (planet clements/midi:1:0))
+
+   (define a (midi-file-parse "Drum_sample.mid"))
+   (define data (collapse-to-deltas (car (cdaddr a))))
+   (define cell (car data))
 
    (define (calculate-deltas lst) 
      (map (lambda (a b) 
@@ -81,8 +86,8 @@
    (define (note-on channel note velocity)
      (append (midi-event-to-nibble 'note-on) 
              (pad-binary (num-to-binary channel) 4) 
-             (pad-binary (num-to-binary note) 2) 
-             (pad-binary (num-to-binary velocity) 2)))
+             (pad-binary (num-to-binary note) 8) 
+             (pad-binary (num-to-binary velocity) 8)))
 
 
    (define (header-chunk) '(#x4d #x54 #x68 #x64 #x00 #x00 #x00 #x06))
@@ -93,6 +98,28 @@
              (byte-list-to-int (pad-binary (list format-type) 4))
              (bit-list-to-int (pad-binary (num-to-binary number-of-tracks) 16))
              (bit-list-to-int (pad-binary (num-to-binary time-division) 16))))
+
+   (define (track-bytes track-size)
+     (append (track-chunk)
+             (bit-list-to-int (pad-binary (num-to-binary track-size) 32))))
+
+   (define (event-bytes event delta channel param1 param2)
+     (append (delta-to-midi delta) (midi-event-to-nibble event)
+             (pad-binary (num-to-binary param1) 8)
+             (if (number? param2)
+               (pad-binary (num-to-binary param2) 8)
+               (pad-binary (num-to-binary 0) 8))))
+
+   (define (process-event event-tree)
+     (let ([delta (car event-tree)]
+           [event (caadr event-tree)]
+           [channel (cadadr event-tree)]
+           [params (cddadr event-tree)])
+     (event-bytes event delta channel (car params) (cadr params))))
+
+   ;;(define (process-meta-event event-tree)
+
+
 
    ;;(define out (open-output-file "testing"))
 
