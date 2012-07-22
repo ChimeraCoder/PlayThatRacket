@@ -22,10 +22,13 @@
                  (quotient n 2)))
                null))
 
-   (define (num-to-binary n)
+   (define (num-to-binary-rev n)
      (if (= 0 n)
        '(0)
        (num-to-binary-r n)))
+
+   (define (num-to-binary n)
+     (reverse (num-to-binary-rev n)))
 
    (define (binary-to-midi-encoding b start)
      (let ([bit (if start 0 1)])
@@ -38,7 +41,7 @@
      ))
 
    (define (delta-to-midi delta)
-     (binary-to-midi-encoding (num-to-binary delta) #t))
+     (binary-to-midi-encoding (num-to-binary-rev delta) #t))
 
    (define (pad-binary binary n)
      (if (< (length binary) n)
@@ -50,11 +53,11 @@
      (match event
             ['note-off '(1 0 0 0)]
             ['note-on '(1 0 0 1)]
-            ['key-after-touch '(1 0 1 0)]
+            ['aftertouch '(1 0 1 0)]
             ['control-change '(1 0 1 1)]
             ['program-change '(1 1 0 0)]
-            ['channel-after-touch '(1 1 0 1)]
-            ['pitch-wheel-change '(1 1 1 0)]
+            ['channel-aftertouch '(1 1 0 1)]
+            ['pitch-bend '(1 1 1 0)]
             ))
 
    (define (midi-meta-event-to-byte event)
@@ -63,11 +66,17 @@
             ['time-signature '(0 1 0 1 1 0 0 0)]
             ))
 
-   (define (bit-list-to-chars bit-list)
+   (define (bit-list-to-int bit-list)
      (if (null? bit-list)
        null
-       (cons (foldl + 0 (map (lambda (a b) (* a b)) (take bit-list 4) '(8 4 2 1))) 
-             (bit-list-to-chars (drop bit-list 4)))))
+       (cons (foldl + 0 (map (lambda (a b) (* a b)) (take bit-list 8) '(128 64 32 16 8 4 2 1))) 
+             (bit-list-to-int (drop bit-list 8)))))
+
+   (define (byte-list-to-int byte-list)
+     (if (null? byte-list)
+       null
+       (cons (foldl + 0 (map (lambda (a b) (* a b)) (take byte-list 2) '(16 1)))
+             (byte-list-to-int (drop byte-list 2)))))
 
    (define (note-on channel note velocity)
      (append (midi-event-to-nibble 'note-on) 
@@ -76,8 +85,21 @@
              (pad-binary (num-to-binary velocity) 2)))
 
 
-   (define (header-chunk) '(0x4d 0x54 0x68 0x64 0x00 0x00 0x00 0x06))
-   (define (track-chunk) '(0x4d 0x54 0x72 0x68))
+   (define (header-chunk) '(#x4d #x54 #x68 #x64 #x00 #x00 #x00 #x06))
+   (define (track-chunk) '(#x4d #x54 #x72 #x68))
+
+   (define (header-bytes format-type number-of-tracks time-division)
+     (append (header-chunk)  
+             (byte-list-to-int (pad-binary (list format-type) 4))
+             (bit-list-to-int (pad-binary (num-to-binary number-of-tracks) 16))
+             (bit-list-to-int (pad-binary (num-to-binary time-division) 16))))
+
+   ;;(define out (open-output-file "testing"))
+
+  ;; (define (intermediate-to-bytes intermediate)
+  ;;   (let ([rest (cdr intermediate)])
+  ;;   (match (car intermediate)
+  ;;          ['multi 
 
    (provide (all-defined-out))
 )
