@@ -1,7 +1,7 @@
 (module supermap racket
 
  (define (map/skip desired-function lst (skip-first #t))
-  (let* ((toggler (make-toggler #t)))  ;; switcher is a function that switches to the identity fun
+  (let* ((toggler (make-toggler skip-first)))  ;; switcher is a function that switches to the identity fun
    (map (lambda (x) (apply-if (toggler) desired-function x)) lst)))
 
  (define (apply-if predicate desired-function x)
