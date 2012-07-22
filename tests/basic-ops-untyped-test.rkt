@@ -21,6 +21,12 @@
   (map (lambda (nt) (check-equal? (note-pitch nt) (note-pitch A♯))) (cadr pair-spattered))
   (check-equal? #t #t))
 
+(test-case "Trill should work on a single note"
+  (define A♮-trilled (trill A♮))
+
+  (map (lambda (nt) (check-equal? (note-duration nt) (note-duration A♮))) A♮-trilled)  
+  (check-equal? #t #t))
+
 
 
 
