@@ -13,7 +13,7 @@
    (define (collapse-to-deltas lst)
      (cons (car lst) (calculate-deltas lst)))
 
-   (define a (midi-file-parse "Drum_sample.mid"))
+   (define a (midi-file-parse "Drum_sample2.mid"))
    (define data (collapse-to-deltas (car (cdaddr a))))
    (define cell (car data))
    (define metadata (caaddr a))
@@ -72,7 +72,7 @@
      (match event
             ['set-tempo '(0 1 0 1 0 0 0 1)]
             ['time-signature '(0 1 0 1 1 0 0 0)]
-            ['end-of-track '(0 0 1 0 1 1 1 1)]
+            ['end-of-track '(0 0 1 0 1 1 1 1 0 0 0 0 0 0 0 0)]
             ))
 
    (define (bit-list-to-int bit-list)
@@ -95,7 +95,7 @@
 
 
    (define (header-chunk) '(#x4d #x54 #x68 #x64 #x00 #x00 #x00 #x06))
-   (define (track-chunk) '(#x4d #x54 #x72 #x68))
+   (define (track-chunk) '(#x4d #x54 #x72 #x6B))
 
    (define (header-bytes format-type number-of-tracks time-division)
      (append (header-chunk)  
@@ -125,6 +125,7 @@
 
    (define (process-time-signature time-list) 
      (append (midi-meta-header) (midi-meta-event-to-byte 'time-signature) 
+             (pad-binary (num-to-binary 4) 8)
              (pad-binary (num-to-binary (first time-list)) 8)
              (pad-binary (num-to-binary (second time-list)) 8)
              (pad-binary (num-to-binary (third time-list)) 8)
@@ -132,6 +133,7 @@
 
    (define (process-set-tempo tempo) 
      (append (midi-meta-header) (midi-meta-event-to-byte 'set-tempo)
+             (pad-binary (num-to-binary 3) 8)
              (pad-binary (num-to-binary tempo) 24)))
 
    (define (process-end-of-track)
@@ -145,7 +147,9 @@
              [event-param (cadr event-data)])
              (match (car event-data)
                     ['time-signature (process-time-signature event-param)]
-                    ['set-tempo (process-set-tempo event-param)]))
+                    ['set-tempo (process-set-tempo event-param)]
+                    ['unknown '()]
+                    ))
                           ))
 
    (define (process-ev event)
@@ -157,6 +161,19 @@
      (let* ([events (map (lambda (event) (bit-list-to-int (process-ev event))) track-tree)]
             [track-length (foldl + 0 (map length events))])
        (append (track-bytes track-length) events)))
+
+   (define (process-whole tree)
+     (let ([list-of-tracks (caddr tree)]
+           [time-info (cadr tree)])
+     (append (header-bytes 1 (length list-of-tracks) (cadr time-info))
+             (map process-track list-of-tracks))))
+
+   (define (write-tree-to-file tree file)
+     (define out (open-output-file file))
+     (write-bytes (list->bytes (flatten tree)) out)
+     (close-output-port out)
+     )
+
 
    ;;(define out (open-output-file "testing"))
 
