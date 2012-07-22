@@ -3,10 +3,6 @@
    (require racket/match)
    (require (planet clements/midi:1:0))
 
-   (define a (midi-file-parse "Drum_sample.mid"))
-   (define data (collapse-to-deltas (car (cdaddr a))))
-   (define cell (car data))
-
    (define (calculate-deltas lst) 
      (map (lambda (a b) 
             (cons 
@@ -16,6 +12,11 @@
 
    (define (collapse-to-deltas lst)
      (cons (car lst) (calculate-deltas lst)))
+
+   (define a (midi-file-parse "Drum_sample.mid"))
+   (define data (collapse-to-deltas (car (cdaddr a))))
+   (define cell (car data))
+   (define metadata (caaddr a))
 
    ;; returns the binary bits backwards
    (define (num-to-binary-r n)
@@ -65,10 +66,13 @@
             ['pitch-bend '(1 1 1 0)]
             ))
 
+   (define (midi-meta-header)
+     '(1 1 1 1 1 1 1 1))
    (define (midi-meta-event-to-byte event)
      (match event
             ['set-tempo '(0 1 0 1 0 0 0 1)]
             ['time-signature '(0 1 0 1 1 0 0 0)]
+            ['end-of-track '(0 0 1 0 1 1 1 1)]
             ))
 
    (define (bit-list-to-int bit-list)
@@ -117,9 +121,31 @@
            [params (cddadr event-tree)])
      (event-bytes event delta channel (car params) (cadr params))))
 
-   ;;(define (process-meta-event event-tree)
 
+   (define (process-time-signature time-list) 
+     (append (midi-meta-header) (midi-meta-event-to-byte 'time-signature) 
+             (pad-binary (num-to-binary (first time-list)) 8)
+             (pad-binary (num-to-binary (second time-list)) 8)
+             (pad-binary (num-to-binary (third time-list)) 8)
+             (pad-binary (num-to-binary (fourth time-list)) 8)))
 
+   (define (process-set-tempo tempo) 
+     (append (midi-meta-header) (midi-meta-event-to-byte 'set-tempo)
+             (pad-binary (num-to-binary tempo) 24)))
+
+   (define (process-end-of-track)
+     (append (midi-meta-header) (midi-meta-event-to-byte 'end-of-track)))
+
+   (define (process-meta-event event-tree)
+     (if (equal? (cadadr event-tree) 'end-of-track)
+       (process-end-of-track)
+       (let* ([delta (car event-tree)]
+             [event-data (cadadr event-tree)]
+             [event-param (cadr event-data)])
+             (match (car event-data)
+                    ['time-signature (process-time-signature event-param)]
+                    ['set-tempo (process-set-tempo event-param)]))
+                          ))
 
    ;;(define out (open-output-file "testing"))
 
