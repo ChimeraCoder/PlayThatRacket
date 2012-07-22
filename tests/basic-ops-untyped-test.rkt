@@ -5,7 +5,7 @@
 
 (require (only-in "../supermap.rkt" map/skip))
 
-
+(define A♭ (note 415 500))
 (define A♮ (note 440 500))
 (define A♯ (note (round (inexact->exact 466.16)) 500)) 
 
@@ -22,6 +22,7 @@
   (check-equal? (length (flatten pair-spattered)) 100)
   (map (lambda (nt) (check-equal? (note-pitch nt) (note-pitch A♮))) (car pair-spattered))
   (map (lambda (nt) (check-equal? (note-pitch nt) (note-pitch A♯))) (cadr pair-spattered))
+ 
   (check-equal? #t #t))
 
 (test-case "Trill should work on a single note"
@@ -30,13 +31,17 @@
   (map (lambda (nt) (check-equal? (note-duration nt) (note-duration A♮))) A♮-trilled)  
   (map/skip (lambda (nt) (check-equal? (note-pitch nt) (note-pitch (semitone-up A♮)))) A♮-trilled)  
   (map/skip (lambda (nt) (check-equal? (note-pitch nt) (note-pitch A♮))) A♮-trilled #f)  
+
   (check-equal? #t #t))
 
-(test-case "Trill should work on a single note"
-  (define pair-trilled (trill (list A♮)))
+(test-case "Trill should work on a group of notes"
   (define A♮-trilled (trill A♮))
+  (define A♭-trilled (trill A♭))
+  (define pair-trilled (trill (list A♮ A♭)))
+  (check-equal? (car pair-trilled) A♮-trilled)
+  (check-equal? (cadr pair-trilled) A♭-trilled)
+  (check-equal? (flatten pair-trilled) (flatten (list A♮-trilled A♭-trilled)))
 
-  (map (lambda (nt) (check-equal? (note-duration nt) (note-duration A♮))) A♮-trilled)  
   (check-equal? #t #t))
 
 
