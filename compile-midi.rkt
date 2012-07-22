@@ -109,6 +109,7 @@
 
    (define (event-bytes event delta channel param1 param2)
      (append (delta-to-midi delta) (midi-event-to-nibble event)
+             (pad-binary (num-to-binary channel) 4)
              (pad-binary (num-to-binary param1) 8)
              (if (number? param2)
                (pad-binary (num-to-binary param2) 8)
@@ -146,6 +147,16 @@
                     ['time-signature (process-time-signature event-param)]
                     ['set-tempo (process-set-tempo event-param)]))
                           ))
+
+   (define (process-ev event)
+     (if (equal? (caadr event) 'meta)
+       (process-meta-event event)
+       (process-event event)))
+
+   (define (process-track track-tree)
+     (let* ([events (map (lambda (event) (bit-list-to-int (process-ev event))) track-tree)]
+            [track-length (foldl + 0 (map length events))])
+       (append (track-bytes track-length) events)))
 
    ;;(define out (open-output-file "testing"))
 
