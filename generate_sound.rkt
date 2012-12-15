@@ -17,6 +17,16 @@
   (signal->rsound duration sig1)))
 
 
+(define (note->signal pitch duration volume)
+ (let ((sig1
+        (network ()
+         [a (sine-wave pitch)]
+         [out (* volume a)])))
+  (signal->rsound duration sig1)))
+
+
+
+;;Play A440 for 44100 frames at .1 of the maximum volume
 (play (create-sound 440 44100 .1))
 
 ;;If you don't sleep, the program will exit before it actually gets a chance to play
