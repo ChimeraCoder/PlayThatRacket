@@ -45,4 +45,17 @@
 
 (define B (note (round (inexact->exact 493.88)) 500))
 
+
+(define C5 (raise-octave C))
+(define C5♯ (raise-octave C♯))
+(define C5# (raise-octave C#))
+
+(define D5 (raise-octave D))
+(define D5# (raise-octave D#))
+
+(define E5 (raise-octave E))
+(define F5♯ (raise-octave F♯))
+(define F5# (raise-octave F#))
+
+
 (provide (all-defined-out))
