@@ -2,6 +2,7 @@
 
 (require (planet clements/rsound))
 (require "datatypes.rkt")
+(require "basic-ops-typed.rkt")
 (require "scale.rkt")
 
 (: note->sound (case -> (note -> rsound)
@@ -33,7 +34,8 @@
 ;(play (rs-append* (list (note->sound (note 440 500)) (note->sound (note 540 500) .1))))
 
 (define chromatic-scale-4th (list C C♯ C# D♭ Db D D♯ D# E♭ Eb E F F♯ F# G♭ Gb G G♯ G# A♭ Ab A A♯ A# B♭ Bb B))
-(play-notes chromatic-scale-4th)    
+
+(define chromatic-scale-5th (raise-all-octave chromatic-scale-4th))
 
 
 
@@ -42,3 +44,5 @@
 
 ;;If you don't sleep, the program will exit before it actually gets a chance to play
 (sleep 2000)
+
+(provide (all-defined-out))
