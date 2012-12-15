@@ -56,6 +56,31 @@
 (define E5 (raise-octave E))
 (define F5♯ (raise-octave F♯))
 (define F5# (raise-octave F#))
+(define A5 (raise-octave A))
 
+;;TODO there's a more mathematically sound way of doing this
+(define (A? note)
+  (ormap (lambda (x) (equal? (note-pitch note) (note-pitch x))) (list A A5)))
+
+(define (B? note)
+  (ormap (lambda (x) (equal? (note-pitch note) (note-pitch x))) (list B B5)))
+
+(define (C? note)
+  (ormap (lambda (x) (equal? (note-pitch note) (note-pitch x))) (list C C5)))
+
+(define (D? note)
+  (ormap (lambda (x) (equal? (note-pitch note) (note-pitch x))) (list D D5)))
+
+(define (E? note)
+  (ormap (lambda (x) (equal? (note-pitch note) (note-pitch x))) (list E E5)))
+
+(define (F? note)
+  (ormap (lambda (x) (equal? (note-pitch note) (note-pitch x))) (list F F5)))
+
+(define (F#? note)
+  (ormap (lambda (x) (equal? (note-pitch note) (note-pitch x))) (list F# F#5)))
+
+(define (C#? note)
+  (ormap (lambda (x) (equal? (note-pitch note) (note-pitch x))) (list C# C#5)))
 
 (provide (all-defined-out))
