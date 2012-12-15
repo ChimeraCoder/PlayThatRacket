@@ -14,6 +14,10 @@
   (define (semitone-up nt)
     (note (round (inexact->exact (* (note-pitch nt) 1.05946))) (note-duration nt)))
 
+  (: wholetone-up (note -> note))
+  (define (wholetone-up nt)
+    ((apply compose `(,semitone-up ,semitone-up)) nt)) ;(note (round (inexact->exact (* (note-pitch nt) 1.05946))) (note-duration nt)))
+
   (define foo (semitone-up-f (list (note 400 500) (note 300 500))))
  
 
