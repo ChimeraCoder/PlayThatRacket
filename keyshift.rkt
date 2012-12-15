@@ -1,6 +1,7 @@
 (module keyshift typed/racket/no-check
 
    (require "datatypes.rkt")
+   (require "basic-ops-untyped.rkt")
    (require "scale.rkt")
 
   (define (transform-notes input func)
@@ -21,21 +22,34 @@
   ;;Table is a list of pairs
   ;;Returns a single function
   (define (compose-functions-from-table table)
-    (apply compose (map (lambda (pair) (lambda (nt)
-                                   (if ((car pair) nt)
-                                     (change-pitch nt (cadr pair))
-                                     nt))) table)))
+    (apply compose1 (map (lambda (pair) (lambda (nt)
+                                   (if ((car pair) nt) ;;If the first function is true
+                                     ((cadr pair) nt) ;;then apply the second fnction
+                                     nt))) ;;otherwise return the note unchanged
+                                     table)))
 
     (define (keyshift-A-to-B nts)
      (transform-notes nts (compose-functions-from-table 
                            (list 
-                             (list A?  B)
-                             (list B?  C#)
-                             (list C#? D#)
-                             (list D?  E)
-                             (list E?  F5#)
-                             (list F#? G5#)
-                             (list G#? A5#)))))
+                             (list A?  wholetone-up)
+                             (list B?  wholetone-up)
+                             (list C#? wholetone-up)
+                             (list D?  wholetone-up)
+                             (list E?  wholetone-up)
+                             (list F#? wholetone-up)
+                             (list G#? wholetone-up)))))
+
+     (define (keyshift-A-to-D nts)
+      (transform-notes nts (compose-functions-from-table 
+                            (list 
+                             (list A?  (compose wholetone-up wholetone-up semitone-up))
+                             (list B?  (compose wholetone-up wholetone-up semitone-up))
+                             (list C#? (compose wholetone-up wholetone-up semitone-up))
+                             (list D?  (compose wholetone-up wholetone-up semitone-up))
+                             (list E?  (compose wholetone-up wholetone-up semitone-up))
+                             (list F#? (compose wholetone-up wholetone-up semitone-up))
+                             (list G#? (compose wholetone-up wholetone-up semitone-up))))))
+
 
 
 (provide (all-defined-out)))

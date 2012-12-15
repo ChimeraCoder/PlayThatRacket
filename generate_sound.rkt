@@ -4,6 +4,7 @@
 (require "datatypes.rkt")
 (require "basic-ops-typed.rkt")
 (require "scale.rkt")
+(require "keyshift.rkt")
 
 (: note->sound (case -> (note -> rsound)
                         (note -> Number rsound)))
@@ -59,7 +60,8 @@
 
 
 ;(play-notes (flatten (list first-phrase rest second-phrase rest third-phrase rest third-phrase rest first-phrase rest second-phrase)))
-(play-notes (flatten (mozart-form first-phrase second-phrase third-phrase)))
+
+(play-notes (keyshift-A-to-D (flatten (mozart-form first-phrase second-phrase third-phrase))))
 
 
 
