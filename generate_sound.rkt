@@ -39,32 +39,3 @@
 
 ;;If you don't sleep, the program will exit before it actually gets a chance to play
 (sleep 200)
-
-#|
-    (define vibrato-tone
-     (network ()
-      [lfo (sine-wave 2)]
-      [sin (sine-wave (+ 440 (* 1 lfo)))]
-      [out (* 0.1 sin)]))
-
-    (signal-play vibrato-tone)
-    (sleep 5)
-
-(stop)
-;(play ding) 
-|#
-
-#|
-This is the example given in the rsound documentation
-http://planet.racket-lang.org/package-source/clements/rsound.plt/4/4/planet-docs/rsound/index.html#(part._.Frequency_.Response)
-(define sig1
-  (network ()
-           [a (sine-wave 440)]
-           [out (* 0.1 a)]))
-(define r (signal->rsound 44100 sig1))
-
-(play r)
-
-(sleep 200)
-|#
-
