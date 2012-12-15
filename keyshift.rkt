@@ -42,13 +42,13 @@
      (define (keyshift-A-to-D nts)
       (transform-notes nts (compose-functions-from-table 
                             (list 
-                             (list A?  (compose wholetone-up wholetone-up semitone-up))
-                             (list B?  (compose wholetone-up wholetone-up semitone-up))
-                             (list C#? (compose wholetone-up wholetone-up semitone-up))
-                             (list D?  (compose wholetone-up wholetone-up semitone-up))
-                             (list E?  (compose wholetone-up wholetone-up semitone-up))
-                             (list F#? (compose wholetone-up wholetone-up semitone-up))
-                             (list G#? (compose wholetone-up wholetone-up semitone-up))))))
+                             (list A?  (compose1 wholetone-up wholetone-up semitone-up))
+                             (list B?  (compose1 wholetone-up wholetone-up semitone-up))
+                             (list C#? (compose1 wholetone-up wholetone-up semitone-up))
+                             (list D?  (compose1 wholetone-up wholetone-up semitone-up))
+                             (list E?  (compose1 wholetone-up wholetone-up semitone-up))
+                             (list F#? (compose1 wholetone-up wholetone-up semitone-up))
+                             (list G#? (compose1 wholetone-up wholetone-up semitone-up))))))
 
 
 
