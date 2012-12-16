@@ -1,4 +1,4 @@
-#lang racket/base
+#lang typed/racket/base
 
 (require "basic-ops-typed.rkt")
 
@@ -61,33 +61,44 @@
 (define F5# (raise-octave F#))
 (define G5# (raise-octave G#))
 (define A5 (raise-octave A))
+(define G5 (raise-octave G))
+
+
+(define: (same-pitch? (nt1 : note) (nt2 : note)) : Boolean
+  (equal? (note-pitch nt1) (note-pitch nt2)))
 
 ;;TODO there's a more mathematically sound way of doing this
-(define (A? note)
-  (ormap (lambda (x) (equal? (note-pitch note) (note-pitch x))) (list A A5)))
+;(: A? (note -> Boolean))
+(define: (A? (nt : note)) : Boolean
+  (let: ([tmp : (Listof note) (list A A5)])
+    (ormap (lambda: ([other : note]) (same-pitch? nt other)) tmp)))
 
-(define (B? note)
-  (ormap (lambda (x) (equal? (note-pitch note) (note-pitch x))) (list B B5)))
+(define: (B? (nt : note)) : Boolean
+    (ormap (lambda: ([other : note]) (same-pitch? nt other)) (list B B5)))
 
-(define (C? note)
-  (ormap (lambda (x) (equal? (note-pitch note) (note-pitch x))) (list C C5)))
+(define: (C? (nt : note)) : Boolean
+    (ormap (lambda: ([other : note]) (same-pitch? nt other)) (list C C5)))
 
-(define (D? note)
-  (ormap (lambda (x) (equal? (note-pitch note) (note-pitch x))) (list D D5)))
+(define: (D? (nt : note)) : Boolean
+    (ormap (lambda: ([other : note]) (same-pitch? nt other)) (list D D5)))
 
-(define (E? note)
-  (ormap (lambda (x) (equal? (note-pitch note) (note-pitch x))) (list E E5)))
+(define: (E? (nt : note)) : Boolean
+    (ormap (lambda: ([other : note]) (same-pitch? nt other)) (list E E5)))
 
-(define (F? note)
-  (ormap (lambda (x) (equal? (note-pitch note) (note-pitch x))) (list F F5)))
+(define: (F? (nt : note)) : Boolean
+    (ormap (lambda: ([other : note]) (same-pitch? nt other)) (list F F5)))
 
-(define (F#? note)
-  (ormap (lambda (x) (equal? (note-pitch note) (note-pitch x))) (list F# F5#)))
+(define: (G? (nt : note)) : Boolean
+    (ormap (lambda: ([other : note]) (same-pitch? nt other)) (list G G5)))
 
-(define (C#? note)
-  (ormap (lambda (x) (equal? (note-pitch note) (note-pitch x))) (list C# C5#)))
+(define: (F#? (nt : note)) : Boolean
+    (ormap (lambda: ([other : note]) (same-pitch? nt other)) (list F# F5#)))
 
-(define (G#? note)
-  (ormap (lambda (x) (equal? (note-pitch note) (note-pitch x))) (list G# G5#)))
+(define: (C#? (nt : note)) : Boolean
+    (ormap (lambda: ([other : note]) (same-pitch? nt other)) (list C# C5#)))
+
+(define: (G#? (nt : note)) : Boolean
+    (ormap (lambda: ([other : note]) (same-pitch? nt other)) (list G# G5#)))
+
 
 (provide (all-defined-out))
