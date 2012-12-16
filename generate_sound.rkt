@@ -46,12 +46,12 @@
 
 (define chromatic-scale-4th (list C C♯ C# D♭ Db D D♯ D# E♭ Eb E F F♯ F# G♭ Gb G G♯ G# A♭ Ab A A♯ A# B♭ Bb B))
 
-(define first-phrase (list A A E5 E5 F5# F5# E5))
-(define second-phrase (list D5 D5 C5# C5# B B A))
-(define third-phrase (list E5 E5 D5 D5 C5# C5# B))
-(define rest (note 0 500)) ;;temporary hack
-
 (define chromatic-scale-5th (raise-all-octave chromatic-scale-4th))
+
+(define first-phrase (list A A E5 E5 F5♯ F5♯ E5))
+(define second-phrase (list D5 D5 C5♯ C5♯ B B A))
+(define third-phrase (list E5 E5 D5 D5 C5♯ C5♯ B))
+(define rest (note 0 500)) ;;temporary hack
 
 (define (mozart-form a b c)
   (list a rest b rest c rest c rest a rest b))
