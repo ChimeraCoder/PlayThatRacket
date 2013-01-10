@@ -6,6 +6,12 @@
 (require "scale.rkt")
 (require "keyshift.rkt")
 
+(require "translate_code.rkt")
+
+(require compiler/decompile)
+(require compiler/zo-parse)
+
+
 (: note->sound (case -> (note -> rsound)
                         (note -> Number rsound)))
 
@@ -78,8 +84,17 @@
 ;(play-notes (flatten (mozart-form first-phrase second-phrase third-phrase)))
 
 
-(play-notes (flatten (crazy-mozart-form first-phrase second-phrase third-phrase)))
+;(play-notes (flatten (crazy-mozart-form first-phrase second-phrase third-phrase)))
 
+
+
+(define fin (open-input-file "compiled/datatypes_rkt.zo" #:mode 'binary))
+
+(define bytecode (zo-parse fin))
+
+(define source (decompile bytecode))
+
+(play-notes (make-notes (translate source)))
 
 ;(play-notes (list (note 440 500) (note 540 500)))
 

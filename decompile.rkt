@@ -1,4 +1,4 @@
- compiler/decompile)
+(require compiler/decompile)
 (require compiler/zo-parse)
 
 
