@@ -79,6 +79,20 @@
 
 
 
+  ;;TODO catch notes that are too high
+  (: ensure-middle-octave (note -> note))
+  (define (ensure-middle-octave nt)
+    (if (< (note-pitch nt) 260)
+      (note (* 10 (note-pitch nt)) (note-duration nt));(ensure-middle-octave (note (* 2 (note-pitch nt)) (note-duration nt)))
+      nt))
+    
+  (: ensure-reasonable-length (note -> note))
+  (define (ensure-reasonable-length nt)
+    (if (< (note-duration nt) 500)
+      (note (note-pitch nt) 500)
+      nt))
+
+
 
  (provide (all-defined-out))
  (provide semitone-up-f)

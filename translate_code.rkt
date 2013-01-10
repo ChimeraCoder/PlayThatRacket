@@ -2,6 +2,7 @@
 
 (require "datatypes.rkt")
 (require "scale.rkt")
+(require "basic-ops-typed.rkt")
 
 (define MAX_PITCH 1000)
 (define MAX_DURATION 1000)
@@ -21,8 +22,26 @@
 (: make-notes ((Listof Number) -> (Listof note)))
 (define (make-notes nums)
   (match nums
-    [(list-rest a b ...d) (cons (note (min a MAX_PITCH) (min b MAX_DURATION)) (make-notes (cddr nums)))]
-    [(list a) (note (min a MAX_PITCH) 5)]
+    [(list-rest a b ...d) (cons (ensure-reasonable-length (ensure-middle-octave (note a b ))) (make-notes (cddr nums)))]
+    [(list a) (ensure-reasonable-length (ensure-middle-octave (note a 5)))]
     [_ '()]))
       
+
+#|
+  ;;TODO fix this
+  (: ensure-middle-octave (note -> note))
+  (define (ensure-middle-octave nt) 
+    (if (< (note-pitch nt) 260)
+      (note (* 2 (note-pitch nt)) (note-duration nt)))
+      nt)
+    
+  (: ensure-reasonable-length (note -> note))
+  (define (ensure-reasonable-length nt) 
+    (if (< (note-duration nt) 500)
+      (note (note-pitch nt) 500)
+      nt))|#
+
+
+
+
 (provide (all-defined-out))      

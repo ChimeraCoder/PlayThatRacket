@@ -86,6 +86,8 @@
 
 ;(play-notes (flatten (crazy-mozart-form first-phrase second-phrase third-phrase)))
 
+(define (lengthen-note n factor)
+  (note (note-pitch n) (* factor (note-duration n))))
 
 
 (define fin (open-input-file "compiled/datatypes_rkt.zo" #:mode 'binary))
@@ -93,8 +95,10 @@
 (define bytecode (zo-parse fin))
 
 (define source (decompile bytecode))
-
-(play-notes (make-notes (translate source)))
+(display (length (cadr source)))
+(define song (flatten (make-notes (translate (take (cadr source) 20)))))
+(display song)
+(play-notes song)
 
 ;(play-notes (list (note 440 500) (note 540 500)))
 
