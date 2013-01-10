@@ -32,11 +32,26 @@
 ;:Right now, we're assuming 1 second is 44100 frames
 (: ms->frames (Integer -> Integer))
 (define (ms->frames milliseconds)
-  (* milliseconds (/ 44100 1000)))
+  (truncate (* milliseconds (/ 44100 1000))))
 
 (: play-notes (Listof note -> ))
 (define (play-notes notes)
   (play (rs-append* (map note->sound notes))))
+
+
+(define (random-element lst)
+  (list-ref lst (random (length lst))))
+
+(define crazy-functions (list keyshift-A-to-D
+                              keyshift-A-to-B
+                              raise-all-octave))
+
+(define (scramble phrase)
+   ((random-element crazy-functions) phrase))
+
+(define (crazy-mozart-form a b c)
+  (map scramble (list (keyshift-A-to-D a) rest ((random-element crazy-functions) b) rest c rest c rest a rest b)))
+
 
 
 
@@ -51,18 +66,19 @@
 (define first-phrase (list A A E5 E5 F5♯ F5♯ E5))
 (define second-phrase (list D5 D5 C5♯ C5♯ B B A))
 (define third-phrase (list E5 E5 D5 D5 C5♯ C5♯ B))
-(define rest (note 0 500)) ;;temporary hack
+(define rest (list (note 0 500))) ;;temporary hack
 
 (define (mozart-form a b c)
   (list a rest b rest c rest c rest a rest b))
 
+
+;(play-notes chromatic-scale-4th)
 ;(play-notes chromatic-scale-5th)
-
-
 ;(play-notes (flatten (list first-phrase rest second-phrase rest third-phrase rest third-phrase rest first-phrase rest second-phrase)))
+;(play-notes (flatten (mozart-form first-phrase second-phrase third-phrase)))
 
-(play-notes (keyshift-A-to-D (flatten (mozart-form first-phrase second-phrase third-phrase))))
 
+(play-notes (flatten (crazy-mozart-form first-phrase second-phrase third-phrase)))
 
 
 ;(play-notes (list (note 440 500) (note 540 500)))
