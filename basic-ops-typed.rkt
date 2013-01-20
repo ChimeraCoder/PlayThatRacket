@@ -89,7 +89,7 @@
   (: ensure-reasonable-length (note -> note))
   (define (ensure-reasonable-length nt)
     (if (< (note-duration nt) 500)
-      (note (note-pitch nt) 500)
+      (note (note-pitch nt) 50)
       nt))
 
 
