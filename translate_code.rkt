@@ -7,6 +7,7 @@
 (define MAX_PITCH 1000)
 (define MAX_DURATION 1000)
 
+;A very basic example of one possible transformation function for arbitrary s-expressions
 (define (translate tree)
   (cond
     [(list? tree) (match (length tree)
@@ -25,23 +26,5 @@
     [(list-rest a b ...d) (cons (ensure-reasonable-length (ensure-middle-octave (note a b ))) (make-notes (cddr nums)))]
     [(list a) (ensure-reasonable-length (ensure-middle-octave (note a 5)))]
     [_ '()]))
-      
-
-#|
-  ;;TODO fix this
-  (: ensure-middle-octave (note -> note))
-  (define (ensure-middle-octave nt) 
-    (if (< (note-pitch nt) 260)
-      (note (* 2 (note-pitch nt)) (note-duration nt)))
-      nt)
-    
-  (: ensure-reasonable-length (note -> note))
-  (define (ensure-reasonable-length nt) 
-    (if (< (note-duration nt) 500)
-      (note (note-pitch nt) 500)
-      nt))|#
-
-
-
 
 (provide (all-defined-out))      

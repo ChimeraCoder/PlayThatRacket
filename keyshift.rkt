@@ -32,6 +32,8 @@
                                      nt))) ;;otherwise return the note unchanged
                                      table)))
 
+    ;;TODO these functions can actually be defined automatically, 
+    ;;though it requires a bit of sophistication when accidentals are concerned
     (define (keyshift-A-to-B nts)
      (transform-notes nts (compose-functions-from-table 
                            (list 

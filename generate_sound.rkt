@@ -60,15 +60,11 @@
 
 
 
-
-
-
-
-
+;;Define two chromatic scales (each note is played once for each of its 'aliases')
 (define chromatic-scale-4th (list C C♯ C# D♭ Db D D♯ D# E♭ Eb E F F♯ F# G♭ Gb G G♯ G# A♭ Ab A A♯ A# B♭ Bb B))
-
 (define chromatic-scale-5th (raise-all-octave chromatic-scale-4th))
 
+;;Define each of the three phrases in "Twinkle Twinkle, Little Star"
 (define first-phrase (list A A E5 E5 F5♯ F5♯ E5))
 (define second-phrase (list D5 D5 C5♯ C5♯ B B A))
 (define third-phrase (list E5 E5 D5 D5 C5♯ C5♯ B))
@@ -90,19 +86,17 @@
   (note (note-pitch n) (* factor (note-duration n))))
 
 
+;;Decompile a racket binary into s-expressions
 (define fin (open-input-file "compiled/datatypes_rkt.zo" #:mode 'binary))
-
 (define bytecode (zo-parse fin))
-
 (define source (decompile bytecode))
-(display (length (cadr source)))
+
+
 (define song (flatten (make-notes (translate (take (cadr source) 20)))))
-(display song)
 (play-notes song)
 
-;(play-notes (list (note 440 500) (note 540 500)))
-
 ;;If you don't sleep, the program will exit before it actually gets a chance to play
+;;TODO fix this to sleep for the appropriate amount of time automatically
 (sleep 2000)
 
 (provide (all-defined-out))
