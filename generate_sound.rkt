@@ -6,28 +6,7 @@
 (require "keyshift.rkt")
 (require "rsound.rkt")
 
-(require "translate_code.rkt")
 
-(require compiler/decompile)
-(require compiler/zo-parse)
-
-
-;;Musicians, like programmers, love abstraction!
-
-;;The song "Twinkle Twinkle, Little Star" has a common structure,
-;;and we might want to use that structure later to compose other songs too.
-(define (mozart-form a b c)
-  (list a rest b rest c rest c rest a rest b))
-
-;;Obligatory: Every Lisp dialect needs to be able to compile itself
-;;This Lisp dialect can also _decompile_ itself and play its own compiler as a song
-
-;;Decompile a racket binary into s-expressions
-(define fin (open-input-file "compiled/datatypes_rkt.zo" #:mode 'binary))
-(define bytecode (zo-parse fin))
-(define source (decompile bytecode))
-;;Translate the source code into a song
-(define compiler-as-song (flatten (make-notes (translate (take (cadr source) 20)))))
 
 
 ;;Uncomment one of the following lines to play that particular composition

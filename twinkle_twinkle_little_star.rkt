@@ -5,6 +5,8 @@
 (require "scale.rkt")
 (require "keyshift.rkt")
 
+;;Musicians, like programmers, love abstraction!
+
 ;;The song "Twinkle Twinkle, Little Star" has a common structure,
 ;;and we might want to use that structure later to compose other songs too.
 (define (mozart-form a b c)
