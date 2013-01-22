@@ -1,7 +1,7 @@
 #lang racket
 
-(require "rsound.rkt")
-(require "translate_code.rkt")
+(require "../rsound.rkt")
+(require "../translate_code.rkt")
 
 (require compiler/decompile)
 (require compiler/zo-parse)

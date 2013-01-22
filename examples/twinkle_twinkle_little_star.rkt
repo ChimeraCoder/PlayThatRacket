@@ -1,9 +1,9 @@
 #lang racket
 
-(require "rsound.rkt")
-(require "basic-ops-typed.rkt")
-(require "scale.rkt")
-(require "keyshift.rkt")
+(require "../rsound.rkt")
+(require "../basic-ops-typed.rkt")
+(require "../scale.rkt")
+(require "../keyshift.rkt")
 
 ;;Musicians, like programmers, love abstraction!
 

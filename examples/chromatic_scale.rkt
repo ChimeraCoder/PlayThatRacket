@@ -1,10 +1,10 @@
 #lang racket
 
 
-(require "basic-ops-typed.rkt")
-(require "scale.rkt")
-(require "keyshift.rkt")
-(require "rsound.rkt")
+(require "../basic-ops-typed.rkt")
+(require "../scale.rkt")
+(require "../keyshift.rkt")
+(require "../rsound.rkt")
 
 
 ;;Here's how we would write the chromatic scale 

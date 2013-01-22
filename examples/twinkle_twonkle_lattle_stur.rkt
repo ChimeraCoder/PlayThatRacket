@@ -1,9 +1,9 @@
 #lang racket
 
-(require "rsound.rkt")
-(require "basic-ops-typed.rkt")
-(require "scale.rkt")
-(require "keyshift.rkt")
+(require "../rsound.rkt")
+(require "../basic-ops-typed.rkt")
+(require "../scale.rkt")
+(require "../keyshift.rkt")
 
 
 ;;A lot of modern and/or experimental music mixes both fixed components and components that are defined at 'performance-time' by the performer and/or audience.
