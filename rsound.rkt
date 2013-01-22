@@ -3,12 +3,6 @@
 (require "datatypes.rkt")
 (require (planet clements/rsound))
 
-
-
-
-
-
-
 (: note->sound (case -> (note -> rsound)
                         (note -> Number rsound)))
 
@@ -40,9 +34,5 @@
 
 (define (lengthen-note n factor)
   (note (note-pitch n) (* factor (note-duration n))))
-
-
-
-
 
 (provide (all-defined-out))

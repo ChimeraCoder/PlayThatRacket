@@ -1,6 +1,5 @@
 #lang typed/racket/no-check
 
-(require (planet clements/rsound))
 (require "datatypes.rkt")
 (require "basic-ops-typed.rkt")
 (require "scale.rkt")
@@ -11,7 +10,6 @@
 
 (require compiler/decompile)
 (require compiler/zo-parse)
-
 
 ;;Here's how we would write the chromatic scale 
 ;;Define two chromatic scales (each note is played once for each of its 'aliases')
