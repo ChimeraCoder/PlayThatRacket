@@ -5,6 +5,7 @@
 
 ;Define each of the notes of the chromatic scale
 
+(define silence (note 0 500)) ;Temporary hack to simulate a rest
 (define C (note (round (inexact->exact 261.63)) 500))
 
 (define C♯ (note (round (inexact->exact 277.18)) 500))
