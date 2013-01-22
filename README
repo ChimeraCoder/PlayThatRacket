@@ -1,9 +1,9 @@
 Play That Racket!
 ===============
 
-Play That Racket! provides a vision for an alternative musical structure, one which allows composers the flexibility to highlight similarities between any two pieces of music, the freedom to define partial compositions, and a format to express truly modern symphonies programatically. 
+*Play That Racket!* provides a vision for an alternative musical structure, one which allows composers the flexibility to highlight similarities between any two pieces of music, the freedom to define partial compositions, and a format to express truly modern symphonies programatically. 
 
-With Play That Racket!, it is easy to define semi-random compositions like the following:
+With *Play That Racket!*, it is easy to define semi-random compositions like the following:
 
 
 ````scheme
@@ -17,7 +17,7 @@ With Play That Racket!, it is easy to define semi-random compositions like the f
 No two performances will be the same!
 
 Examples
-===========
+------------
 
 Some sample programs have been placed in the `examples/` folder, and can be run directly with racket:
 
@@ -36,14 +36,15 @@ or
 
 
 Requirements
-=========
+------------
 
-Play That Racket! is written in Racket and has been tested on Linux using version 5.3.1, though it will likely work with other versions of Racket and on other systems as well. 
+*Play That Racket!* is written in Racket and has been tested on Linux using version 5.3.1, though it will likely work with other versions of Racket and on other systems as well. 
 
 
 
 TODO
-========
+------------
+
 Lots! Consider this version 0.1 - a preview, if you will. Some stuff that still needs to be done:
 
 * Proper racket-style packaging of the libraries
@@ -53,8 +54,9 @@ Lots! Consider this version 0.1 - a preview, if you will. Some stuff that still 
 
 
 License
-=========
-Play That Racket! is free software licensed under version 3 of the GNU Affero General Public License, available in the COPYING file (also symlinked from LICENSE).
+--------
+
+*Play That Racket!* is free software licensed under version 3 of the GNU Affero General Public License, available in the COPYING file (also symlinked from LICENSE).
 
 Copyright (C) 2013 Aditya Mukerjee
 
