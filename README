@@ -1,0 +1,69 @@
+Play That Racket!
+===============
+
+Play That Racket! provides a vision for an alternative musical structure, one which allows composers the flexibility to highlight similarities between any two pieces of music, the freedom to define partial compositions, and a format to express truly modern symphonies programatically. 
+
+With Play That Racket!, it is easy to define semi-random compositions like the following:
+
+
+````racket
+((lambda (a b c)
+  (map scramble (list (keyshift-A-to-D a) rest ((random-element crazy-functions) b) rest c rest c rest a rest b))) 
+ (list A A E5 E5 F5♯ F5♯ E5)
+ (list D5 D5 C5♯ C5♯ B B A) 
+ (list E5 E5 D5 D5 C5♯ C5♯ B)) 
+````
+
+No two performances will be the same!
+
+Examples
+===========
+
+Some sample programs have been placed in the `examples/` folder, and can be run directly with racket:
+
+````
+> racket examples/chromatic_scale.rkt
+````
+
+or
+
+
+````
+> racket examples/twinkle_twinkle_little_star.rkt
+````
+
+...etc.
+
+
+Requirements
+=========
+
+Play That Racket! is written in Racket and has been tested on Linux using version 5.3.1, though it will likely work with other versions of Racket and on other systems as well. 
+
+
+
+TODO
+========
+Lots! Consider this version 0.1 - a preview, if you will. Some stuff that still needs to be done:
+
+* Proper racket-style packaging of the libraries
+* Better abstraction of functions for changing keys, using intelligent macros
+* Use other sound backends (rsound is currently the only one supported)
+* Provide options for changing instrumentation/timbre/etc.
+
+
+License
+=========
+Play That Racket! is free software licensed under version 3 of the GNU Affero General Public License, available in the COPYING file (also symlinked from LICENSE).
+
+Copyright (C) 2013 Aditya Mukerjee
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+
+

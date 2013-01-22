@@ -8,6 +8,8 @@
 (define MAX_DURATION 1000)
 
 ;A very basic example of one possible transformation function for arbitrary s-expressions
+;ANY function with the same signature could be substituted in here; this one is a relatively boring one
+;The function needs to take an arbitrary s expression and return a list of notes
 (define (translate tree)
   (cond
     [(list? tree) (match (length tree)
