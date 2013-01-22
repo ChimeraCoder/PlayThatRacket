@@ -6,7 +6,7 @@ Play That Racket! provides a vision for an alternative musical structure, one wh
 With Play That Racket!, it is easy to define semi-random compositions like the following:
 
 
-````racket
+````scheme
 ((lambda (a b c)
   (map scramble (list (keyshift-A-to-D a) rest ((random-element crazy-functions) b) rest c rest c rest a rest b))) 
  (list A A E5 E5 F5♯ F5♯ E5)
