@@ -11,12 +11,6 @@
 (require compiler/decompile)
 (require compiler/zo-parse)
 
-;;Here's how we would write the chromatic scale 
-;;Define two chromatic scales (each note is played once for each of its 'aliases')
-(define chromatic-scale-4th (list C C♯ C# D♭ Db D D♯ D# E♭ Eb E F F♯ F# G♭ Gb G G♯ G# A♭ Ab A A♯ A# B♭ Bb B))
-;;Defining the scale in another octave is easy!
-(define chromatic-scale-5th (raise-all-octave chromatic-scale-4th))
-
 
 ;;Musicians, like programmers, love abstraction!
 
@@ -72,7 +66,6 @@
 ;;Currently, only one composition can be played at a time
 ;;TODO implement proper parallel playback
 
-(play-notes chromatic-scale-4th)
 ;(play-notes chromatic-scale-5th)
 ;(play-notes (flatten (list first-phrase rest second-phrase rest third-phrase rest third-phrase rest first-phrase rest second-phrase)))
 ;(play-notes (flatten (mozart-form first-phrase second-phrase third-phrase)))
