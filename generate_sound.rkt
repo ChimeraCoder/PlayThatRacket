@@ -19,28 +19,6 @@
 (define (mozart-form a b c)
   (list a rest b rest c rest c rest a rest b))
 
-;;A lot of modern and/or experimental music mixes both fixed components and components that are defined at 'performance-time' by the performer and/or audience.
-;;No two performances are the same!
-
-;;Let's define a partially random composition
-;;It follows the same structure as 'Twinkle Twinkle, Little Star'
-;;but has some twists that will only be defined at runtime.
-(define (random-element lst)
-  (list-ref lst (random (length lst))))
-
-(define crazy-functions (list keyshift-A-to-D
-                              keyshift-A-to-B
-                              raise-all-octave))
-
-(define (scramble phrase)
-   ((random-element crazy-functions) phrase))
-
-(define (crazy-mozart-form a b c)
-  (map scramble (list (keyshift-A-to-D a) rest ((random-element crazy-functions) b) rest c rest c rest a rest b)))
-
-;;Now, crazy-mozart-form _is itself a composition_ 
-
-
 ;;Obligatory: Every Lisp dialect needs to be able to compile itself
 ;;This Lisp dialect can also _decompile_ itself and play its own compiler as a song
 
